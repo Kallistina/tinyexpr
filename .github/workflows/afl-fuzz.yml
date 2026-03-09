@@ -43,6 +43,7 @@ jobs:
         run: |
           mkdir -p "$GITHUB_WORKSPACE/afl-output"
           timeout 300s docker run --rm \
+            --user "$(id -u):$(id -g)" \
             -e AFL_NO_UI=1 \
             -v "$GITHUB_WORKSPACE/afl-output:/out" \
             "$IMAGE_REPO_LOWER:${GITHUB_SHA}" || true
