@@ -42,11 +42,17 @@ jobs:
       - name: Run AFL++ for 5 minutes
         run: |
           mkdir -p "$GITHUB_WORKSPACE/afl-output"
+          set +e
           timeout 300s docker run --rm \
             --user "$(id -u):$(id -g)" \
             -e AFL_NO_UI=1 \
             -v "$GITHUB_WORKSPACE/afl-output:/out" \
-            "$IMAGE_REPO_LOWER:${GITHUB_SHA}" || true
+            "$IMAGE_REPO_LOWER:${GITHUB_SHA}"
+          code=$?
+          if [ "$code" -ne 0 ] && [ "$code" -ne 124 ]; then
+            echo "AFL exited early with code $code"
+            exit $code
+          fi
 
       - name: Compress AFL++ output
         run: |
