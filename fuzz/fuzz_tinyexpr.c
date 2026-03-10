@@ -23,6 +23,7 @@ int main(int argc, char **argv) {
     int err = 0;
     te_expr *expr = te_compile(buf, 0, 0, &err);
     if (expr) {
+        te_print(expr);
         (void)te_eval(expr);
         te_free(expr);
     } else {
