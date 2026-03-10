@@ -6,7 +6,7 @@ COPY tinyexpr.c tinyexpr.h ./
 COPY fuzz/fuzz_tinyexpr.c ./
 COPY fuzz/seeds /seeds
 
-RUN afl-clang-fast -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer \
+RUN afl-clang-fast -O1 -g -fno-omit-frame-pointer \
     -I/src -o /fuzz_tinyexpr /src/fuzz_tinyexpr.c /src/tinyexpr.c -lm
 
 RUN mkdir -p /out
