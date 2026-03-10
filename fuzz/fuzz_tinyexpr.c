@@ -20,7 +20,8 @@ int main(int argc, char **argv) {
     fclose(f);
     buf[n] = '\0';
 
-    te_expr *expr = te_compile(buf, 0, 0, 0);
+    int err = 0;
+    te_expr *expr = te_compile(buf, 0, 0, &err);
     if (expr) te_free(expr);
 
     free(buf);
